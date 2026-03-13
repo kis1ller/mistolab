@@ -30,12 +30,11 @@ import {
   Tooltip,
 } from 'recharts';
 import { CityData, Category } from '../types';
-import { CATEGORY_COLORS } from '../constants';
+import { CATEGORY_COLORS, CITY_COAT_OF_ARMS } from '../constants';
 import {
   fetchDetailedAirQuality,
   fetchWeather,
   fetchNbuRates,
-  fetchCityCoatOfArms,
   LiveAQIResult,
   LiveWeatherResult,
   ExchangeRates,
@@ -50,28 +49,28 @@ export const CityDetail: React.FC<CityDetailProps> = ({ city, onBack }) => {
   const [liveAQI, setLiveAQI] = useState<LiveAQIResult | null>(null);
   const [liveWeather, setLiveWeather] = useState<LiveWeatherResult | null>(null);
   const [exchangeRates, setExchangeRates] = useState<ExchangeRates | null>(null);
-  const [coatOfArms, setCoatOfArms] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const defaultBackground =
-    'https://images.unsplash.com/photo-1471180625745-944903837c22?q=80&w=1600&auto=format&fit=crop';
-  const backgroundUrl = city.imageUrl || defaultBackground;
+  const coatOfArms = CITY_COAT_OF_ARMS[city.id] ?? null;
+  const [coatError, setCoatError] = useState(false);
+
+  useEffect(() => { setCoatError(false); }, [city.id]);
+
+  const backgroundUrl =
+    'https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=1600&auto=format&fit=crop';
 
   useEffect(() => {
     setLoading(true);
-    setCoatOfArms(null);
 
     const loadData = async () => {
-      const [aqi, weather, rates, herbUrl] = await Promise.all([
+      const [aqi, weather, rates] = await Promise.all([
         fetchDetailedAirQuality(city.coordinates.lat, city.coordinates.lon),
         fetchWeather(city.coordinates.lat, city.coordinates.lon),
         fetchNbuRates(),
-        fetchCityCoatOfArms(city.name),
       ]);
       setLiveAQI(aqi);
       setLiveWeather(weather);
       setExchangeRates(rates);
-      setCoatOfArms(herbUrl);
       setLoading(false);
     };
 
@@ -239,12 +238,13 @@ export const CityDetail: React.FC<CityDetailProps> = ({ city, onBack }) => {
             <div className="absolute inset-0 bg-gradient-to-t from-violet-950 via-violet-900/40 to-transparent opacity-90"></div>
             <div className="absolute inset-0 bg-gradient-to-r from-indigo-900/70 via-transparent to-transparent opacity-80"></div>
 
-            {coatOfArms && (
+            {coatOfArms && !coatError && (
               <div className="absolute inset-0 flex items-center justify-center p-4 pointer-events-none">
                 <img
                   src={coatOfArms}
                   alt={`Герб ${city.name}`}
                   className="h-28 md:h-32 w-auto object-contain drop-shadow-[0_0_35px_rgba(167,139,250,0.6)] animate-fade-in-up"
+                  onError={() => setCoatError(true)}
                 />
               </div>
             )}
@@ -268,11 +268,11 @@ export const CityDetail: React.FC<CityDetailProps> = ({ city, onBack }) => {
           </div>
 
           {/* Total Score */}
-          <div className="absolute bottom-4 right-6 md:right-10 text-white text-right z-10">
-            <p className="opacity-90 text-xs font-semibold uppercase tracking-wider mb-0.5 text-violet-200">
+          <div className="absolute bottom-3 right-6 md:right-10 text-white text-right z-10">
+            <p className="opacity-90 text-[10px] font-bold uppercase tracking-widest mb-0.5 text-violet-200">
               Загальний Бал
             </p>
-            <div className="text-4xl md:text-5xl font-black tracking-tight text-white drop-shadow-[0_0_15px_rgba(167,139,250,0.5)]">
+            <div className="text-6xl md:text-7xl font-black tracking-tight text-white drop-shadow-[0_0_25px_rgba(167,139,250,0.7)] leading-none">
               {city.totalScore}
             </div>
           </div>

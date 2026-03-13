@@ -50,6 +50,26 @@ const App: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    const metaDesc = document.querySelector('meta[name="description"]');
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+
+    if (selectedCity) {
+      const title = `${selectedCity.name} — рейтинг ${selectedCity.rank}, бал ${selectedCity.totalScore} | МістоLab`;
+      const desc = `${selectedCity.name} (${selectedCity.region}): загальний бал ${selectedCity.totalScore}, місце №${selectedCity.rank} серед 51 міста України. ${selectedCity.description} Дані: Work.ua, ProZorro, TI Ukraine, OpenMeteo.`;
+      document.title = title;
+      if (metaDesc) metaDesc.setAttribute('content', desc);
+      if (ogTitle) ogTitle.setAttribute('content', title);
+      if (ogDesc) ogDesc.setAttribute('content', desc);
+    } else {
+      const title = 'МістоLab — Рейтинг якості життя міст України 2024';
+      const desc = 'МістоLab — інтегральний рейтинг 51 міста України за якістю життя. Аналізуємо економіку, прозорість влади, екологію та інфраструктуру на основі відкритих даних: Work.ua, ProZorro, TI Ukraine, OpenMeteo.';
+      document.title = title;
+      if (metaDesc) metaDesc.setAttribute('content', desc);
+      if (ogTitle) ogTitle.setAttribute('content', title);
+      if (ogDesc) ogDesc.setAttribute('content', desc);
+    }
   }, [selectedCity]);
 
   return (
