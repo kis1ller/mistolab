@@ -107,7 +107,7 @@ export const RankingTable: React.FC<RankingTableProps> = ({ data, onSelectCity }
       <div className="p-6 border-b border-slate-200 dark:border-slate-800 flex flex-col gap-4 bg-slate-50 dark:bg-slate-800/50">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <h2 className="text-xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
-            Загальний рейтинг 2024
+            Загальний рейтинг 2025
             <span className="text-sm font-normal text-slate-500 dark:text-slate-400 ml-2 bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded-full">
               {filteredAndSortedData.length} міст
             </span>

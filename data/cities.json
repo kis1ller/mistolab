@@ -5,7 +5,10 @@
     "name": "Київ",
     "region": "м. Київ",
     "population": 2952000,
-    "coordinates": { "lat": 50.4501, "lon": 30.5234 },
+    "coordinates": {
+      "lat": 50.4501,
+      "lon": 30.5234
+    },
     "imageUrl": "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 890,
     "description": "Економічний лідер. Висока цифрова зрілість (Kyiv Digital), але проблеми з екологією та безпекою.",
@@ -30,7 +33,11 @@
       "hasTransportApi": true,
       "hasAccessibilityMap": true
     },
-    "highlights": ["Лідер цифровізації", "Найбільший ринок праці", "Найвища концентрація ВНЗ"]
+    "highlights": [
+      "Лідер цифровізації",
+      "Найбільший ринок праці",
+      "Найвища концентрація ВНЗ"
+    ]
   },
   {
     "id": "lviv",
@@ -38,7 +45,10 @@
     "name": "Львів",
     "region": "Львівська",
     "population": 717000,
-    "coordinates": { "lat": 49.8397, "lon": 24.0297 },
+    "coordinates": {
+      "lat": 49.8397,
+      "lon": 24.0297
+    },
     "imageUrl": "https://images.unsplash.com/photo-1601928236166-5e5d16453985?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 875,
     "description": "Потужний IT-кластер та розвинена інфраструктура. LvivCityHelper та відкриті дані.",
@@ -63,7 +73,11 @@
       "hasTransportApi": true,
       "hasAccessibilityMap": true
     },
-    "highlights": ["Топ IT-хаб", "Лідер туризму", "Розвинена громадянська активність"]
+    "highlights": [
+      "Топ IT-хаб",
+      "Лідер туризму",
+      "Розвинена громадянська активність"
+    ]
   },
   {
     "id": "vinnytsia",
@@ -71,7 +85,10 @@
     "name": "Вінниця",
     "region": "Вінницька",
     "population": 370000,
-    "coordinates": { "lat": 49.2331, "lon": 28.4682 },
+    "coordinates": {
+      "lat": 49.2331,
+      "lon": 28.4682
+    },
     "imageUrl": "https://images.unsplash.com/photo-1629815857218-1c4b4b2c453c?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 860,
     "description": "Лідер прозорості. Найкращий громадський транспорт та високі стандарти управління.",
@@ -96,7 +113,11 @@
       "hasTransportApi": true,
       "hasAccessibilityMap": true
     },
-    "highlights": ["Найкращий транспорт", "Відмінна екологія", "Лідер відкритих даних"]
+    "highlights": [
+      "Найкращий транспорт",
+      "Відмінна екологія",
+      "Лідер відкритих даних"
+    ]
   },
   {
     "id": "chernivtsi",
@@ -104,10 +125,13 @@
     "name": "Чернівці",
     "region": "Чернівецька",
     "population": 266000,
-    "coordinates": { "lat": 48.2921, "lon": 25.9352 },
+    "coordinates": {
+      "lat": 48.2921,
+      "lon": 25.9352
+    },
     "imageUrl": "https://images.unsplash.com/photo-1634547970878-574f88e7343e?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 845,
-    "description": "Абсолютний лідер рейтингу прозорості 2024. Безпечне місто, але скромніша економіка.",
+    "description": "Абсолютний лідер рейтингу прозорості 2025. Безпечне місто, але скромніша економіка.",
     "metrics": {
       "Економіка (30%)": 65,
       "Прозорість (20%)": 100,
@@ -136,7 +160,10 @@
     "name": "Івано-Франківськ",
     "region": "Івано-Франківська",
     "population": 237000,
-    "coordinates": { "lat": 48.9226, "lon": 24.7111 },
+    "coordinates": {
+      "lat": 48.9226,
+      "lon": 24.7111
+    },
     "imageUrl": "https://images.unsplash.com/photo-1598555620888-294747201c10?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 840,
     "description": "Висока інвестиційна привабливість та екологія. Динамічний розвиток малого бізнесу.",
@@ -168,7 +195,10 @@
     "name": "Луцьк",
     "region": "Волинська",
     "population": 217000,
-    "coordinates": { "lat": 50.7472, "lon": 25.3254 },
+    "coordinates": {
+      "lat": 50.7472,
+      "lon": 25.3254
+    },
     "imageUrl": "https://images.unsplash.com/photo-1629117621936-224424364028?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 815,
     "description": "Топ-3 за прозорістю. Використання чат-ботів та європейська грантова активність.",
@@ -200,7 +230,10 @@
     "name": "Дніпро",
     "region": "Дніпропетровська",
     "population": 980000,
-    "coordinates": { "lat": 48.4647, "lon": 35.0462 },
+    "coordinates": {
+      "lat": 48.4647,
+      "lon": 35.0462
+    },
     "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Dnipro_Embankment.jpg/1280px-Dnipro_Embankment.jpg",
     "totalScore": 805,
     "description": "Потужна економіка та висока цифровізація. Проблеми з екологією та безпековими ризиками.",
@@ -232,7 +265,10 @@
     "name": "Одеса",
     "region": "Одеська",
     "population": 1020000,
-    "coordinates": { "lat": 46.4825, "lon": 30.7233 },
+    "coordinates": {
+      "lat": 46.4825,
+      "lon": 30.7233
+    },
     "imageUrl": "https://images.unsplash.com/photo-1594657158784-0e3181827431?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 795,
     "description": "Високі доходи та туристичний потенціал. Проблеми з прозорістю та комунальною інфраструктурою.",
@@ -264,7 +300,10 @@
     "name": "Харків",
     "region": "Харківська",
     "population": 1421000,
-    "coordinates": { "lat": 49.9935, "lon": 36.2304 },
+    "coordinates": {
+      "lat": 49.9935,
+      "lon": 36.2304
+    },
     "imageUrl": "https://images.unsplash.com/photo-1622384918764-5b4385960072?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 780,
     "description": "Героїчна стійкість бізнесу. Відмінні комунальні сервіси, але критична безпекова ситуація.",
@@ -289,7 +328,11 @@
       "hasTransportApi": true,
       "hasAccessibilityMap": false
     },
-    "highlights": ["Студентська столиця", "Героїчна стійкість", "Потужна наукова база"]
+    "highlights": [
+      "Студентська столиця",
+      "Героїчна стійкість",
+      "Потужна наукова база"
+    ]
   },
   {
     "id": "uzhhorod",
@@ -297,7 +340,10 @@
     "name": "Ужгород",
     "region": "Закарпатська",
     "population": 116000,
-    "coordinates": { "lat": 48.6208, "lon": 22.2879 },
+    "coordinates": {
+      "lat": 48.6208,
+      "lon": 22.2879
+    },
     "imageUrl": "https://images.unsplash.com/photo-1629383637852-501b8e888636?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 775,
     "description": "Найбезпечніше місто. Висока вартість життя, але стабільна економіка завдяки кордону.",
@@ -329,7 +375,10 @@
     "name": "Житомир",
     "region": "Житомирська",
     "population": 263000,
-    "coordinates": { "lat": 50.2546, "lon": 28.6586 },
+    "coordinates": {
+      "lat": 50.2546,
+      "lon": 28.6586
+    },
     "imageUrl": "https://images.unsplash.com/photo-1574092723659-1976079c6d48?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 760,
     "description": "Активне впровадження енергоефективності. Стабільний середняк з доступним житлом.",
@@ -361,7 +410,10 @@
     "name": "Тернопіль",
     "region": "Тернопільська",
     "population": 225000,
-    "coordinates": { "lat": 49.5535, "lon": 25.5948 },
+    "coordinates": {
+      "lat": 49.5535,
+      "lon": 25.5948
+    },
     "imageUrl": "https://images.unsplash.com/photo-1627918341643-9831934e2621?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 755,
     "description": "Студентське місто з гарною екологією. Цифровізація управління на високому рівні.",
@@ -393,7 +445,10 @@
     "name": "Рівне",
     "region": "Рівненська",
     "population": 244000,
-    "coordinates": { "lat": 50.6199, "lon": 26.2516 },
+    "coordinates": {
+      "lat": 50.6199,
+      "lon": 26.2516
+    },
     "imageUrl": "https://images.unsplash.com/photo-1596541223143-2943c51e5404?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 750,
     "description": "Комфортне для життя місто з розвиненим IT-сектором, але інфраструктура потребує оновлення.",
@@ -425,7 +480,10 @@
     "name": "Хмельницький",
     "region": "Хмельницька",
     "population": 271000,
-    "coordinates": { "lat": 49.4229, "lon": 26.9871 },
+    "coordinates": {
+      "lat": 49.4229,
+      "lon": 26.9871
+    },
     "imageUrl": "https://images.unsplash.com/photo-1542665174-31db64d7e0e4?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 745,
     "description": "Місто підприємців. Висока ділова активність, але посередні показники прозорості.",
@@ -457,7 +515,10 @@
     "name": "Полтава",
     "region": "Полтавська",
     "population": 276000,
-    "coordinates": { "lat": 49.5882, "lon": 34.5514 },
+    "coordinates": {
+      "lat": 49.5882,
+      "lon": 34.5514
+    },
     "imageUrl": "https://images.unsplash.com/photo-1572535798993-9c8491c68128?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 730,
     "description": "Зелене та затишне місто. Економіка стабільна, але управління потребує модернізації.",
@@ -489,7 +550,10 @@
     "name": "Черкаси",
     "region": "Черкаська",
     "population": 275000,
-    "coordinates": { "lat": 49.4444, "lon": 32.0598 },
+    "coordinates": {
+      "lat": 49.4444,
+      "lon": 32.0598
+    },
     "imageUrl": "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 725,
     "description": "Промисловий центр на Дніпрі. Гарні рекреаційні зони, але є питання до екології промислових зон.",
@@ -521,7 +585,10 @@
     "name": "Кропивницький",
     "region": "Кіровоградська",
     "population": 249000,
-    "coordinates": { "lat": 48.5079, "lon": 32.2623 },
+    "coordinates": {
+      "lat": 48.5079,
+      "lon": 32.2623
+    },
     "imageUrl": "https://images.unsplash.com/photo-1565514020176-db8b3558c743?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 710,
     "description": "Центр України. Аграрний хаб, спокійне життя, але невисокі темпи цифровізації.",
@@ -553,7 +620,10 @@
     "name": "Запоріжжя",
     "region": "Запорізька",
     "population": 722000,
-    "coordinates": { "lat": 47.8388, "lon": 35.1396 },
+    "coordinates": {
+      "lat": 47.8388,
+      "lon": 35.1396
+    },
     "imageUrl": "https://images.unsplash.com/photo-1632737672236-4c483984534f?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 700,
     "description": "Індустріальний гігант. Потужна промисловість, але важка екологічна та безпекова ситуація.",
@@ -585,7 +655,10 @@
     "name": "Суми",
     "region": "Сумська",
     "population": 260000,
-    "coordinates": { "lat": 50.9077, "lon": 34.7981 },
+    "coordinates": {
+      "lat": 50.9077,
+      "lon": 34.7981
+    },
     "imageUrl": "https://images.unsplash.com/photo-1548695535-64585c703126?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 690,
     "description": "Прикордонне місто. Сильні освітні традиції, але економіка страждає через безпекові ризики.",
@@ -617,7 +690,10 @@
     "name": "Чернігів",
     "region": "Чернігівська",
     "population": 280000,
-    "coordinates": { "lat": 51.4982, "lon": 31.2893 },
+    "coordinates": {
+      "lat": 51.4982,
+      "lon": 31.2893
+    },
     "imageUrl": "https://images.unsplash.com/photo-1629815857218-1c4b4b2c453c?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 685,
     "description": "Історичне місто-герой. Активне відновлення, але логістика та близькість кордону впливають на інвестиції.",
@@ -649,7 +725,10 @@
     "name": "Кривий Ріг",
     "region": "Дніпропетровська",
     "population": 603000,
-    "coordinates": { "lat": 47.9105, "lon": 33.3918 },
+    "coordinates": {
+      "lat": 47.9105,
+      "lon": 33.3918
+    },
     "imageUrl": "https://images.unsplash.com/photo-1563297121-65499268395e?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 680,
     "description": "Найдовше місто Європи. Промислове серце, високі зарплати робітників, але низька екологія.",
@@ -681,7 +760,10 @@
     "name": "Миколаїв",
     "region": "Миколаївська",
     "population": 477000,
-    "coordinates": { "lat": 46.9750, "lon": 31.9946 },
+    "coordinates": {
+      "lat": 46.9750,
+      "lon": 31.9946
+    },
     "imageUrl": "https://images.unsplash.com/photo-1542665174-31db64d7e0e4?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 675,
     "description": "Місто корабелів. Відновлює водопостачання та бізнес попри близькість фронту.",
@@ -713,7 +795,10 @@
     "name": "Кременчук",
     "region": "Полтавська",
     "population": 217000,
-    "coordinates": { "lat": 49.0630, "lon": 33.4042 },
+    "coordinates": {
+      "lat": 49.0630,
+      "lon": 33.4042
+    },
     "imageUrl": "https://images.unsplash.com/photo-1518391846015-55a9cc003b25?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 670,
     "description": "Промисловий вузол. Нафтопереробка та машинобудування забезпечують робочі місця.",
@@ -745,7 +830,10 @@
     "name": "Біла Церква",
     "region": "Київська",
     "population": 208000,
-    "coordinates": { "lat": 49.7969, "lon": 30.1145 },
+    "coordinates": {
+      "lat": 49.7969,
+      "lon": 30.1145
+    },
     "imageUrl": "https://images.unsplash.com/photo-1519999482648-25049ddd37b1?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 665,
     "description": "Найбільше місто Київщини (крім столиці). Промисловий парк та гарна логістика.",
@@ -777,7 +865,10 @@
     "name": "Кам'янець-Подільський",
     "region": "Хмельницька",
     "population": 99000,
-    "coordinates": { "lat": 48.6791, "lon": 26.5879 },
+    "coordinates": {
+      "lat": 48.6791,
+      "lon": 26.5879
+    },
     "imageUrl": "https://images.unsplash.com/photo-1560706248-2b270830467a?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 660,
     "description": "Туристична перлина. Безпечне місто з розвиненою сферою гостинності.",
@@ -809,7 +900,10 @@
     "name": "Мукачево",
     "region": "Закарпатська",
     "population": 85000,
-    "coordinates": { "lat": 48.4411, "lon": 22.7182 },
+    "coordinates": {
+      "lat": 48.4411,
+      "lon": 22.7182
+    },
     "imageUrl": "https://images.unsplash.com/photo-1629117621936-224424364028?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 655,
     "description": "Важливий логістичний хаб. Близькість до кордонів ЄС стимулює торгівлю.",
@@ -841,7 +935,10 @@
     "name": "Дрогобич",
     "region": "Львівська",
     "population": 74000,
-    "coordinates": { "lat": 49.3524, "lon": 23.5042 },
+    "coordinates": {
+      "lat": 49.3524,
+      "lon": 23.5042
+    },
     "imageUrl": "https://images.unsplash.com/photo-1568284422209-66e85501865a?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 650,
     "description": "Культурний центр з активною громадою. Впроваджує цифрові інструменти.",
@@ -873,7 +970,10 @@
     "name": "Умань",
     "region": "Черкаська",
     "population": 82000,
-    "coordinates": { "lat": 48.7487, "lon": 30.2218 },
+    "coordinates": {
+      "lat": 48.7487,
+      "lon": 30.2218
+    },
     "imageUrl": "https://images.unsplash.com/photo-1519999482648-25049ddd37b1?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 645,
     "description": "Туристичний та аграрний центр. Знаходиться на перетині важливих магістралей.",
@@ -905,7 +1005,10 @@
     "name": "Бровари",
     "region": "Київська",
     "population": 109000,
-    "coordinates": { "lat": 50.5114, "lon": 30.7906 },
+    "coordinates": {
+      "lat": 50.5114,
+      "lon": 30.7906
+    },
     "imageUrl": "https://images.unsplash.com/photo-1542665174-31db64d7e0e4?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 640,
     "description": "Супутник Києва. Швидкий розвиток житлового фонду та промисловості.",
@@ -937,7 +1040,10 @@
     "name": "Бориспіль",
     "region": "Київська",
     "population": 64000,
-    "coordinates": { "lat": 50.3522, "lon": 30.9560 },
+    "coordinates": {
+      "lat": 50.3522,
+      "lon": 30.9560
+    },
     "imageUrl": "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 638,
     "description": "Повітряні ворота (на паузі). Логістичний хаб з високою діловою активністю.",
@@ -969,7 +1075,10 @@
     "name": "Ірпінь",
     "region": "Київська",
     "population": 65000,
-    "coordinates": { "lat": 50.5215, "lon": 30.2452 },
+    "coordinates": {
+      "lat": 50.5215,
+      "lon": 30.2452
+    },
     "imageUrl": "https://images.unsplash.com/photo-1596541223143-2943c51e5404?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 635,
     "description": "Місто-герой. Активна відбудова та відновлення житлового фонду.",
@@ -1001,7 +1110,10 @@
     "name": "Ковель",
     "region": "Волинська",
     "population": 68000,
-    "coordinates": { "lat": 51.2173, "lon": 24.7118 },
+    "coordinates": {
+      "lat": 51.2173,
+      "lon": 24.7118
+    },
     "imageUrl": "https://images.unsplash.com/photo-1518391846015-55a9cc003b25?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 630,
     "description": "Залізничний вузол. Важливий транзитний центр на шляху до ЄС.",
@@ -1033,7 +1145,10 @@
     "name": "Коломия",
     "region": "Івано-Франківська",
     "population": 60000,
-    "coordinates": { "lat": 48.5303, "lon": 25.0414 },
+    "coordinates": {
+      "lat": 48.5303,
+      "lon": 25.0414
+    },
     "imageUrl": "https://images.unsplash.com/photo-1560706248-2b270830467a?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 628,
     "description": "Центр Покуття. Збережені традиції та розвиток малого підприємництва.",
@@ -1065,7 +1180,10 @@
     "name": "Стрий",
     "region": "Львівська",
     "population": 59000,
-    "coordinates": { "lat": 49.2558, "lon": 23.8504 },
+    "coordinates": {
+      "lat": 49.2558,
+      "lon": 23.8504
+    },
     "imageUrl": "https://images.unsplash.com/photo-1518391846015-55a9cc003b25?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 625,
     "description": "Важливий транспортний вузол. Промисловість та торгівля.",
@@ -1097,7 +1215,10 @@
     "name": "Коростень",
     "region": "Житомирська",
     "population": 61000,
-    "coordinates": { "lat": 50.9507, "lon": 28.6433 },
+    "coordinates": {
+      "lat": 50.9507,
+      "lon": 28.6433
+    },
     "imageUrl": "https://images.unsplash.com/photo-1518391846015-55a9cc003b25?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 620,
     "description": "Індустріальний парк. Виробництво граніту та фарфору.",
@@ -1129,7 +1250,10 @@
     "name": "Павлоград",
     "region": "Дніпропетровська",
     "population": 103000,
-    "coordinates": { "lat": 48.5298, "lon": 35.8690 },
+    "coordinates": {
+      "lat": 48.5298,
+      "lon": 35.8690
+    },
     "imageUrl": "https://images.unsplash.com/photo-1563297121-65499268395e?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 615,
     "description": "Шахтарське місто. Основа вугільної промисловості.",
@@ -1161,7 +1285,10 @@
     "name": "Нікополь",
     "region": "Дніпропетровська",
     "population": 107000,
-    "coordinates": { "lat": 47.5649, "lon": 34.3998 },
+    "coordinates": {
+      "lat": 47.5649,
+      "lon": 34.3998
+    },
     "imageUrl": "https://images.unsplash.com/photo-1563297121-65499268395e?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 610,
     "description": "Промисловий центр під постійними обстрілами. Високі ризики.",
@@ -1193,7 +1320,10 @@
     "name": "Херсон",
     "region": "Херсонська",
     "population": 289000,
-    "coordinates": { "lat": 46.6354, "lon": 32.6169 },
+    "coordinates": {
+      "lat": 46.6354,
+      "lon": 32.6169
+    },
     "imageUrl": "https://images.unsplash.com/photo-1634062132717-b080562e6462?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 600,
     "description": "Деокуповане місто. Складна безпекова ситуація, але незламний дух.",
@@ -1225,7 +1355,10 @@
     "name": "Бердичів",
     "region": "Житомирська",
     "population": 74000,
-    "coordinates": { "lat": 49.8931, "lon": 28.5847 },
+    "coordinates": {
+      "lat": 49.8931,
+      "lon": 28.5847
+    },
     "imageUrl": "https://images.unsplash.com/photo-1548695535-64585c703126?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 595,
     "description": "Важливий залізничний вузол. Історична спадщина та легка промисловість.",
@@ -1257,7 +1390,10 @@
     "name": "Нововолинськ",
     "region": "Волинська",
     "population": 50000,
-    "coordinates": { "lat": 50.7306, "lon": 24.1610 },
+    "coordinates": {
+      "lat": 50.7306,
+      "lon": 24.1610
+    },
     "imageUrl": "https://images.unsplash.com/photo-1563297121-65499268395e?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 590,
     "description": "Шахтарське місто на заході. Трансформація економіки.",
@@ -1289,7 +1425,10 @@
     "name": "Ізмаїл",
     "region": "Одеська",
     "population": 73000,
-    "coordinates": { "lat": 45.3493, "lon": 28.8355 },
+    "coordinates": {
+      "lat": 45.3493,
+      "lon": 28.8355
+    },
     "imageUrl": "https://images.unsplash.com/photo-1542665174-31db64d7e0e4?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 585,
     "description": "Порт на Дунаї. Стратегічне значення для експорту.",
@@ -1321,7 +1460,10 @@
     "name": "Конотоп",
     "region": "Сумська",
     "population": 86000,
-    "coordinates": { "lat": 51.2370, "lon": 33.2007 },
+    "coordinates": {
+      "lat": 51.2370,
+      "lon": 33.2007
+    },
     "imageUrl": "https://images.unsplash.com/photo-1518391846015-55a9cc003b25?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 580,
     "description": "Транспортний вузол. Трамвайна мережа та машинобудування.",
@@ -1353,7 +1495,10 @@
     "name": "Олександрія",
     "region": "Кіровоградська",
     "population": 82000,
-    "coordinates": { "lat": 48.6713, "lon": 33.1166 },
+    "coordinates": {
+      "lat": 48.6713,
+      "lon": 33.1166
+    },
     "imageUrl": "https://images.unsplash.com/photo-1563297121-65499268395e?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 575,
     "description": "Промислове місто в центрі. Видобуток вугілля (в минулому) та машинобудування.",
@@ -1385,7 +1530,10 @@
     "name": "Сміла",
     "region": "Черкаська",
     "population": 67000,
-    "coordinates": { "lat": 49.2120, "lon": 31.8711 },
+    "coordinates": {
+      "lat": 49.2120,
+      "lon": 31.8711
+    },
     "imageUrl": "https://images.unsplash.com/photo-1518391846015-55a9cc003b25?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 570,
     "description": "Залізничний вузол. Харчова промисловість.",
@@ -1417,7 +1565,10 @@
     "name": "Ніжин",
     "region": "Чернігівська",
     "population": 67000,
-    "coordinates": { "lat": 51.0467, "lon": 31.8798 },
+    "coordinates": {
+      "lat": 51.0467,
+      "lon": 31.8798
+    },
     "imageUrl": "https://images.unsplash.com/photo-1568284422209-66e85501865a?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 565,
     "description": "Університетське місто. Історичний центр, аграрна переробка.",
@@ -1449,7 +1600,10 @@
     "name": "Шостка",
     "region": "Сумська",
     "population": 73000,
-    "coordinates": { "lat": 51.8633, "lon": 33.4698 },
+    "coordinates": {
+      "lat": 51.8633,
+      "lon": 33.4698
+    },
     "imageUrl": "https://images.unsplash.com/photo-1563297121-65499268395e?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 560,
     "description": "Хімічна промисловість. Прикордонна зона, підвищені ризики.",
@@ -1481,7 +1635,10 @@
     "name": "Калуш",
     "region": "Івано-Франківська",
     "population": 65000,
-    "coordinates": { "lat": 49.0435, "lon": 24.3547 },
+    "coordinates": {
+      "lat": 49.0435,
+      "lon": 24.3547
+    },
     "imageUrl": "https://images.unsplash.com/photo-1563297121-65499268395e?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 555,
     "description": "Хімічна промисловість. Екологічні виклики, але непогані зарплати.",
@@ -1513,7 +1670,10 @@
     "name": "Прилуки",
     "region": "Чернігівська",
     "population": 65000,
-    "coordinates": { "lat": 50.5898, "lon": 32.3857 },
+    "coordinates": {
+      "lat": 50.5898,
+      "lon": 32.3857
+    },
     "imageUrl": "https://images.unsplash.com/photo-1548695535-64585c703126?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 550,
     "description": "Тютюнова столиця. Стабільні надходження до бюджету.",
@@ -1545,7 +1705,10 @@
     "name": "Самар",
     "region": "Дніпропетровська",
     "population": 70000,
-    "coordinates": { "lat": 48.6335, "lon": 35.2638 },
+    "coordinates": {
+      "lat": 48.6335,
+      "lon": 35.2638
+    },
     "imageUrl": "https://images.unsplash.com/photo-1548695535-64585c703126?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 545,
     "description": "Супутник Дніпра. Металургія та трубне виробництво. (Колишній Новомосковськ)",
@@ -1577,7 +1740,10 @@
     "name": "Лозова",
     "region": "Харківська",
     "population": 54000,
-    "coordinates": { "lat": 48.8890, "lon": 36.3121 },
+    "coordinates": {
+      "lat": 48.8890,
+      "lon": 36.3121
+    },
     "imageUrl": "https://images.unsplash.com/photo-1518391846015-55a9cc003b25?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 540,
     "description": "Великий залізничний вузол. Близькість до фронту.",
@@ -1609,7 +1775,10 @@
     "name": "Ізюм",
     "region": "Харківська",
     "population": 50000,
-    "coordinates": { "lat": 49.2122, "lon": 37.2725 },
+    "coordinates": {
+      "lat": 49.2122,
+      "lon": 37.2725
+    },
     "imageUrl": "https://images.unsplash.com/photo-1596541223143-2943c51e5404?q=80&w=1600&auto=format&fit=crop",
     "totalScore": 530,
     "description": "Деокуповане місто. Значні руйнування, процес відновлення.",

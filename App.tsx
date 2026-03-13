@@ -63,7 +63,7 @@ const App: React.FC = () => {
       if (ogTitle) ogTitle.setAttribute('content', title);
       if (ogDesc) ogDesc.setAttribute('content', desc);
     } else {
-      const title = 'МістоLab — Рейтинг якості життя міст України 2024';
+      const title = 'МістоLab — Рейтинг якості життя міст України 2025';
       const desc = 'МістоLab — інтегральний рейтинг 51 міста України за якістю життя. Аналізуємо економіку, прозорість влади, екологію та інфраструктуру на основі відкритих даних: Work.ua, ProZorro, TI Ukraine, OpenMeteo.';
       document.title = title;
       if (metaDesc) metaDesc.setAttribute('content', desc);
@@ -123,14 +123,14 @@ const App: React.FC = () => {
             <div className="max-w-3xl">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-300 text-xs font-semibold uppercase tracking-wider mb-4 backdrop-blur-sm">
                 <Sparkles className="w-3 h-3" />
-                Open Data 2024
+                Open Data 2025
               </div>
-              <h1 className="text-4xl md:text-6xl font-black mb-6 tracking-tight">
-                <span className="text-white">Якість життя: </span>
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-cyan-300">
-                  Відкриті Дані
-                </span>
-              </h1>
+                <h1 className="text-4xl md:text-6xl font-black mb-6 tracking-tight">
+                  <span className="text-white">Якість життя: </span>
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-cyan-300">
+                    Відкриті Дані
+                  </span>
+                </h1>
               <p className="text-slate-300 text-lg md:text-xl leading-relaxed max-w-2xl text-balance">
                 Інтегральний рейтинг міст України. Аналізуємо{' '}
                 <span className="text-white font-medium">Економіку</span>,{' '}
@@ -229,7 +229,7 @@ const App: React.FC = () => {
         <div className="flex items-center justify-center gap-2 mb-2">
           <Sparkles className="w-4 h-4 text-violet-400" />
           <p className="text-slate-500 dark:text-slate-400 text-sm">
-            &copy; 2024 МістоLab
+            &copy; 2025 МістоLab
           </p>
         </div>
         <p className="text-slate-400 dark:text-slate-600 text-xs">
@@ -278,7 +278,7 @@ const App: React.FC = () => {
                     </h3>
                     <p className="text-sm mt-1 ml-4 text-slate-500 dark:text-slate-400">
                       Використовує "Рейтинг прозорості" Transparency International Ukraine (TI) за
-                      2024 рік.
+                        2025 рік.
                     </p>
                   </div>
                   <div>

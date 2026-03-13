@@ -17,7 +17,7 @@ export interface SubMetrics {
   avgSalary: number; // UAH (Source: Work.ua/PDF)
   rentCost: number; // UAH
   airQuality: number; // AQI (Live from OpenMeteo)
-  transparencyScore: number; // TI Ukraine 2024 (Source: PDF)
+  transparencyScore: number; // TI Ukraine 2025 (Source: PDF)
   safetyIndex: number; // 0-100
   unemployment: number; // %
   registeredBusiness: number; // per 1k pop
