@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#0891b2" stop-opacity="0.18"/>
+    </linearGradient>
+    <linearGradient id="b1" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#a78bfa"/>
+    </linearGradient>
+    <linearGradient id="b2" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#c026d3"/>
+      <stop offset="100%" stop-color="#e879f9"/>
+    </linearGradient>
+    <linearGradient id="b3" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
+    </linearGradient>
+    <linearGradient id="b4" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#0891b2"/>
+      <stop offset="100%" stop-color="#67e8f9"/>
+    </linearGradient>
+  </defs>
+  <!-- Background rounded square -->
+  <rect width="32" height="32" rx="7" fill="url(#bg)"/>
+  <rect x="0.5" y="0.5" width="31" height="31" rx="6.5" fill="none" stroke="#7c3aed" stroke-opacity="0.35" stroke-width="1"/>
+  <!-- City skyline bars (bottom-aligned at y=28) -->
+  <rect x="4"  y="21" width="5" height="7" rx="1" fill="url(#b1)"/>
+  <rect x="10" y="15" width="5" height="13" rx="1" fill="url(#b2)"/>
+  <rect x="16" y="18" width="5" height="10" rx="1" fill="url(#b3)"/>
+  <rect x="22" y="22" width="5" height="6" rx="1" fill="url(#b4)"/>
+  <!-- Pulse dot top-right -->
+  <circle cx="27" cy="5" r="2.5" fill="#22d3ee"/>
+  <circle cx="27" cy="5" r="2.5" fill="#22d3ee" opacity="0.4">
+    <animate attributeName="r" from="2.5" to="4.5" dur="1.5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" from="0.4" to="0" dur="1.5s" repeatCount="indefinite"/>
+  </circle>
+</svg>
