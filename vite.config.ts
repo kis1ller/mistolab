@@ -5,7 +5,6 @@ import react from '@vitejs/plugin-react';
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
   return {
-    // Base should be the repository name for GitHub Pages (username.github.io/repo)
     base: '/mistolab/',
     server: {
       port: 3000,
@@ -14,8 +13,11 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '.'),
+        '@': path.resolve(__dirname, './'),
       }
+    },
+    build: {
+      outDir: 'dist',
     }
   };
 });
