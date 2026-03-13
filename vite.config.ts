@@ -5,8 +5,8 @@ import react from '@vitejs/plugin-react';
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
   return {
-    // Use relative base so the site works when served from GitHub Pages
-    base: './',
+    // Base should be the repository name for GitHub Pages (username.github.io/repo)
+    base: '/mistolab/',
     server: {
       port: 3000,
       host: '0.0.0.0',
