@@ -170,20 +170,19 @@ export const CityDetail: React.FC<CityDetailProps> = ({ city, onBack }) => {
           )}
 
           <div className="flex-1 min-w-0">
-            {/* rank + score row */}
-            <div className="flex items-baseline gap-4 mb-3">
-              <span className="font-mono text-xs text-slate-400 dark:text-slate-500">#{city.rank}</span>
-              <span className="text-4xl font-black tabular-nums text-orange-500 leading-none">{city.totalScore}</span>
-              <span className="text-xs text-slate-400 dark:text-slate-500">/1000</span>
-            </div>
-
-            <h1 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+            <span className="font-mono text-4xl md:text-5xl font-black tabular-nums text-slate-300 dark:text-slate-700 leading-none">
+              #{city.rank}
+            </span>
+            <h1 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900 dark:text-white leading-tight mt-1">
               {city.name}
             </h1>
-            <div className="flex flex-wrap gap-3 mt-2 text-sm text-slate-400 dark:text-slate-500">
-              <span>{city.region}</span>
-              <span>·</span>
-              <span>{city.population.toLocaleString('uk-UA')} мешканців</span>
+            <div className="flex flex-wrap items-baseline gap-3 mt-2">
+              <span className="text-sm text-slate-400 dark:text-slate-500">{city.region}</span>
+              <span className="text-slate-300 dark:text-slate-700">·</span>
+              <span className="text-sm text-slate-400 dark:text-slate-500">{city.population.toLocaleString('uk-UA')} мешканців</span>
+              <span className="text-slate-300 dark:text-slate-700">·</span>
+              <span className="font-bold tabular-nums text-orange-500">{city.totalScore}</span>
+              <span className="text-xs text-slate-400 dark:text-slate-500">/1000</span>
             </div>
           </div>
         </div>
