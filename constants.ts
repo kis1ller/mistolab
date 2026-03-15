@@ -3,7 +3,7 @@ import citiesRaw from './data/cities.json';
 
 export const CATEGORY_COLORS: Record<Category, string> = {
   [Category.ECONOMY]: '#0ea5e9',       // Sky 500
-  [Category.GOVERNANCE]: '#8b5cf6',    // Violet 500
+  [Category.GOVERNANCE]: '#ea580c',    // Violet 500
   [Category.ECOLOGY]: '#10b981',       // Emerald 500
   [Category.INFRASTRUCTURE]: '#f59e0b', // Amber 500
 };
@@ -61,11 +61,11 @@ export const CITY_COAT_OF_ARMS: Record<string, string> = {
   'konotop': WC('Coat_of_Arms_of_Konotop.svg'),
   'oleksandriia': WC('Coat_of_arms_of_Oleksandriia.svg'),
   'smila': WC('Coat_of_Arms_of_Smila.svg'),
-  'nizhyn': WC('Coat_of_Arms_of_Nizhyn.svg'),
+  'nizhyn': 'coats/nizhyn.png',
   'shostka': WC('Coat_of_Arms_of_Shostka.svg'),
   'kalush': WC('Coat_of_Arms_of_Kalush.svg'),
-  'pryluku': WC('Coat_of_Arms_of_Pryluky.svg'),
+  'pryluku': 'coats/prilyky.png',
   'samar': WC('Coat_of_Arms_of_Novomoskovsk.svg'),
-  'lozova': WC('Coat_of_Arms_of_Lozova.svg'),
+  'lozova': 'coats/lozova.png',
   'izium': WC('Coat_of_Arms_of_Izium.svg'),
 };

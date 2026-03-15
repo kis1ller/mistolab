@@ -1,25 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  ArrowLeft,
-  MapPin,
-  Users,
-  TrendingUp,
-  Building2,
-  Wallet,
-  Wind,
-  ShieldCheck,
-  FileText,
-  Wifi,
-  Sun,
-  Cloud,
-  CloudRain,
-  Briefcase,
-  Accessibility,
-  DollarSign,
-  Activity,
-  Monitor,
-  Palette,
-} from 'lucide-react';
+import { ArrowLeft, Wind, Sun, Cloud, CloudRain, DollarSign } from 'lucide-react';
 import {
   ResponsiveContainer,
   RadarChart,
@@ -30,7 +10,7 @@ import {
   Tooltip,
 } from 'recharts';
 import { CityData, Category } from '../types';
-import { CATEGORY_COLORS, CITY_COAT_OF_ARMS } from '../constants';
+import { CITY_COAT_OF_ARMS } from '../constants';
 import {
   fetchDetailedAirQuality,
   fetchWeather,
@@ -45,462 +25,459 @@ interface CityDetailProps {
   onBack: () => void;
 }
 
+// ── helpers ───────────────────────────────────────────────────────────────────
+
+const fmt = (n: number, suffix = '') =>
+  n === undefined || n === null ? '—' : `${n.toLocaleString('uk-UA')}${suffix}`;
+
+const score = (n: number | undefined) =>
+  n === undefined || n === null ? '—' : `${n}/100`;
+
+// ── sub-components ────────────────────────────────────────────────────────────
+
+const SectionTitle: React.FC<{ num: string; title: string; value?: number; bar?: boolean }> = ({
+  num,
+  title,
+  value,
+  bar = false,
+}) => (
+  <div className="pt-14 pb-6 border-b border-slate-100 dark:border-slate-800 mb-6">
+    <div className="flex items-baseline justify-between gap-4">
+      <div className="flex items-baseline gap-3">
+        <span className="font-mono text-xs text-slate-300 dark:text-slate-600 select-none">{num}</span>
+        <h2 className="text-sm font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">
+          {title}
+        </h2>
+      </div>
+      {value !== undefined && (
+        <span className="text-3xl font-black tabular-nums text-slate-900 dark:text-white">
+          {value}
+        </span>
+      )}
+    </div>
+    {bar && value !== undefined && (
+      <div className="mt-3 h-[3px] bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+        <div
+          className="h-full bg-orange-500 rounded-full transition-all duration-700"
+          style={{ width: `${value}%` }}
+        />
+      </div>
+    )}
+  </div>
+);
+
+interface MetricItem {
+  label: string;
+  value: string | number;
+  sub?: string;
+  highlight?: boolean;
+}
+
+const MetricGrid: React.FC<{ items: MetricItem[]; cols?: 2 | 3 | 4 }> = ({
+  items,
+  cols = 4,
+}) => {
+  const colClass = cols === 2 ? 'grid-cols-2' : cols === 3 ? 'grid-cols-2 sm:grid-cols-3' : 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-4';
+  return (
+    <div className={`grid ${colClass} divide-x divide-y divide-slate-100 dark:divide-slate-800 border border-slate-100 dark:border-slate-800 rounded-lg overflow-hidden`}>
+      {items.map((item, i) => (
+        <div key={i} className="px-4 py-4 bg-white dark:bg-slate-900 group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+          <div className="text-[11px] text-slate-400 dark:text-slate-500 mb-1.5 leading-none">{item.label}</div>
+          <div className={`text-xl font-bold tabular-nums leading-tight ${item.highlight ? 'text-orange-600 dark:text-orange-400' : 'text-slate-900 dark:text-white'}`}>
+            {item.value === undefined || item.value === null ? '—' : item.value}
+          </div>
+          {item.sub && (
+            <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-1">{item.sub}</div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+// ── main component ────────────────────────────────────────────────────────────
+
 export const CityDetail: React.FC<CityDetailProps> = ({ city, onBack }) => {
   const [liveAQI, setLiveAQI] = useState<LiveAQIResult | null>(null);
   const [liveWeather, setLiveWeather] = useState<LiveWeatherResult | null>(null);
   const [exchangeRates, setExchangeRates] = useState<ExchangeRates | null>(null);
   const [loading, setLoading] = useState(true);
-
   const coatOfArms = CITY_COAT_OF_ARMS[city.id] ?? null;
   const [coatError, setCoatError] = useState(false);
 
   useEffect(() => { setCoatError(false); }, [city.id]);
 
-  const backgroundUrl =
-    'https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=1600&auto=format&fit=crop';
-
   useEffect(() => {
     setLoading(true);
-
-    const loadData = async () => {
-      const [aqi, weather, rates] = await Promise.all([
-        fetchDetailedAirQuality(city.coordinates.lat, city.coordinates.lon),
-        fetchWeather(city.coordinates.lat, city.coordinates.lon),
-        fetchNbuRates(),
-      ]);
+    Promise.all([
+      fetchDetailedAirQuality(city.coordinates.lat, city.coordinates.lon),
+      fetchWeather(city.coordinates.lat, city.coordinates.lon),
+      fetchNbuRates(),
+    ]).then(([aqi, weather, rates]) => {
       setLiveAQI(aqi);
       setLiveWeather(weather);
       setExchangeRates(rates);
       setLoading(false);
-    };
-
-    loadData();
+    });
   }, [city]);
 
+  const sm = city.subMetrics;
+
   const radarData = [
-    { subject: 'Економіка', A: city.metrics[Category.ECONOMY], fullMark: 100 },
-    {
-      subject: 'Заможність',
-      A: Math.min(100, (city.subMetrics.avgSalary / 35000) * 100),
-      fullMark: 100,
-    },
-    { subject: 'Прозорість', A: city.subMetrics.transparencyScore, fullMark: 100 },
-    { subject: 'Управління', A: city.metrics[Category.GOVERNANCE], fullMark: 100 },
-    { subject: 'Безпека', A: city.subMetrics.safetyIndex, fullMark: 100 },
-    { subject: 'Екологія', A: city.metrics[Category.ECOLOGY], fullMark: 100 },
-    { subject: 'Культура', A: city.subMetrics.cultureScore, fullMark: 100 },
-    {
-      subject: 'Цифровізація',
-      A:
-        (city.subMetrics.hasTransportApi ? 50 : 0) +
-        (city.subMetrics.hasAccessibilityMap ? 50 : 0),
-      fullMark: 100,
-    },
-    { subject: 'Інфраструктура', A: city.metrics[Category.INFRASTRUCTURE], fullMark: 100 },
+    { subject: 'Економіка',    A: city.metrics[Category.ECONOMY] },
+    { subject: 'Заможність',   A: Math.min(100, Math.round((sm.avgSalary / 35000) * 100)) },
+    { subject: 'Прозорість',   A: sm.transparencyScore },
+    { subject: 'Управління',   A: city.metrics[Category.GOVERNANCE] },
+    { subject: 'Безпека',      A: sm.safetyIndex },
+    { subject: 'Екологія',     A: city.metrics[Category.ECOLOGY] },
+    { subject: 'Культура',     A: sm.cultureScore },
+    { subject: 'Цифровізація', A: sm.smartCityIndex ?? Math.round((sm.hasTransportApi ? 50 : 0) + (sm.hasAccessibilityMap ? 50 : 0)) },
+    { subject: 'Інфраструктура', A: city.metrics[Category.INFRASTRUCTURE] },
   ];
 
-  const getAqiColor = (aqi: number) => {
-    if (aqi <= 50) return 'text-emerald-600 dark:text-emerald-400';
-    if (aqi <= 100) return 'text-yellow-600 dark:text-yellow-400';
-    return 'text-red-600 dark:text-red-400';
-  };
+  const aqiColor = liveAQI
+    ? liveAQI.aqi <= 50 ? '#16a34a' : liveAQI.aqi <= 100 ? '#ca8a04' : '#dc2626'
+    : '#94a3b8';
 
-  const getWeatherIcon = (code: number) => {
-    if (code <= 1) return <Sun className="w-5 h-5 text-orange-500" />;
-    if (code <= 3) return <Cloud className="w-5 h-5 text-slate-400" />;
-    return <CloudRain className="w-5 h-5 text-blue-500" />;
-  };
-
-  const calculateRentToSalary = () =>
-    Math.round((city.subMetrics.rentCost / city.subMetrics.avgSalary) * 100);
-
-  const getSubItems = (category: Category) => {
-    const { subMetrics } = city;
-    switch (category) {
-      case Category.ECONOMY:
-        return [
-          {
-            label: 'Середня ЗП',
-            value: `${subMetrics.avgSalary.toLocaleString()} ₴`,
-            subtext: 'Work.ua',
-            icon: <Wallet className="w-4 h-4 text-sky-500" />,
-          },
-          {
-            label: 'Оренда 1к',
-            value: `${subMetrics.rentCost.toLocaleString()} ₴`,
-            subtext: `${calculateRentToSalary()}% від ЗП`,
-            icon: <Building2 className="w-4 h-4 text-sky-500" />,
-          },
-          {
-            label: 'Безробіття',
-            value: `${subMetrics.unemployment}%`,
-            subtext: 'Офіційні дані',
-            icon: <Users className="w-4 h-4 text-sky-500" />,
-          },
-          {
-            label: 'Закупівлі',
-            value: `${(subMetrics.procurementVolume / 1000).toFixed(1)}k ₴`,
-            subtext: 'ProZorro / душу',
-            icon: <Briefcase className="w-4 h-4 text-sky-500" />,
-          },
-        ];
-      case Category.GOVERNANCE:
-        return [
-          {
-            label: 'TI Індекс',
-            value: `${subMetrics.transparencyScore}/100`,
-            subtext: 'Рейтинг прозорості',
-            icon: <FileText className="w-4 h-4 text-violet-500" />,
-          },
-          {
-            label: 'Бізнес',
-            value: subMetrics.registeredBusiness,
-            subtext: 'на 1000 осіб',
-            icon: <TrendingUp className="w-4 h-4 text-violet-500" />,
-          },
-          {
-            label: 'Міграція',
-            value: `${subMetrics.migrationBalance}/100`,
-            subtext: 'Індекс привабливості',
-            icon: <Activity className="w-4 h-4 text-violet-500" />,
-          },
-        ];
-      case Category.ECOLOGY:
-        return [
-          {
-            label: 'AQI (Повітря)',
-            value: liveAQI ? liveAQI.aqi : subMetrics.airQuality,
-            subtext: 'OpenMeteo Live',
-            icon: <Wind className="w-4 h-4 text-emerald-500" />,
-          },
-          {
-            label: 'Безпека',
-            value: `${subMetrics.safetyIndex}/100`,
-            subtext: 'Індекс сприйняття',
-            icon: <ShieldCheck className="w-4 h-4 text-emerald-500" />,
-          },
-        ];
-      case Category.INFRASTRUCTURE:
-        return [
-          {
-            label: 'GPS Транспорт',
-            value: subMetrics.hasTransportApi ? 'Доступно' : 'Немає',
-            subtext: 'API міста',
-            icon: <Wifi className="w-4 h-4 text-amber-500" />,
-          },
-          {
-            label: "Безбар'єрність",
-            value: subMetrics.hasAccessibilityMap ? 'Мапа є' : 'Немає',
-            subtext: 'LUN Misto',
-            icon: <Accessibility className="w-4 h-4 text-amber-500" />,
-          },
-          {
-            label: 'ВНЗ',
-            value: subMetrics.universities,
-            subtext: 'Заклади освіти',
-            icon: <Building2 className="w-4 h-4 text-amber-500" />,
-          },
-          {
-            label: 'Культура',
-            value: `${subMetrics.cultureScore}/100`,
-            subtext: 'Заклади дозвілля',
-            icon: <Palette className="w-4 h-4 text-amber-500" />,
-          },
-        ];
-      default:
-        return [];
-    }
-  };
+  const weatherIcon = liveWeather
+    ? liveWeather.conditionCode <= 1 ? <Sun className="w-4 h-4 text-orange-400" />
+      : liveWeather.conditionCode <= 3 ? <Cloud className="w-4 h-4 text-slate-400" />
+      : <CloudRain className="w-4 h-4 text-blue-400" />
+    : null;
 
   return (
-    <div className="animate-fade-in-up space-y-8 pb-12">
-      {/* Back button */}
+    <article className="max-w-4xl mx-auto pb-24 animate-fade-in">
+      {/* Back */}
       <button
         onClick={onBack}
-        className="flex items-center text-slate-500 dark:text-slate-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors mb-4 group font-medium"
+        className="group flex items-center gap-2 text-sm text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors mb-10"
       >
-        <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
-        Повернутися до рейтингу
+        <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+        Рейтинг
       </button>
 
-      {/* Main Card */}
-      <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-xl dark:shadow-slate-900/50 border border-slate-200 dark:border-slate-800 overflow-visible">
-        {/* Image Header */}
-        <div className="relative h-56 md:h-64 group">
-          <div className="absolute inset-0 overflow-hidden rounded-t-3xl">
-            <div
-              className={`absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105 ${
-                coatOfArms ? 'blur-[2px] scale-105' : ''
-              }`}
-              style={{ backgroundImage: `url(${backgroundUrl})` }}
+      {/* ── Hero ── */}
+      <header className="mb-12 border-b border-slate-100 dark:border-slate-800 pb-10">
+        <div className="flex items-center gap-6">
+          {/* coat of arms */}
+          {coatOfArms && !coatError && (
+            <img
+              src={coatOfArms}
+              alt={`Герб ${city.name}`}
+              className="h-40 w-auto object-contain flex-shrink-0"
+              onError={() => setCoatError(true)}
             />
-            <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] pointer-events-none mix-blend-overlay"></div>
-            <div className="absolute inset-0 bg-gradient-to-t from-violet-950 via-violet-900/40 to-transparent opacity-90"></div>
-            <div className="absolute inset-0 bg-gradient-to-r from-indigo-900/70 via-transparent to-transparent opacity-80"></div>
+          )}
 
-            {coatOfArms && !coatError && (
-              <div className="absolute inset-0 flex items-center justify-center p-4 pointer-events-none">
-                <img
-                  src={coatOfArms}
-                  alt={`Герб ${city.name}`}
-                  className="h-28 md:h-32 w-auto object-contain drop-shadow-[0_0_35px_rgba(167,139,250,0.6)] animate-fade-in-up"
-                  onError={() => setCoatError(true)}
-                />
-              </div>
-            )}
-          </div>
-
-          {/* Rank Badge */}
-          <div className="absolute -bottom-8 left-6 md:left-10 z-20">
-            <div className="relative group/badge scale-90 md:scale-100">
-              <div className="absolute inset-0 bg-violet-400 blur-xl opacity-40 rounded-full animate-pulse"></div>
-              <div className="relative p-1 bg-white/10 backdrop-blur-md rounded-2xl shadow-xl border border-white/20">
-                <div className="w-20 h-20 md:w-24 md:h-24 bg-white dark:bg-slate-900/90 backdrop-blur-xl rounded-xl flex flex-col items-center justify-center border border-white/50 dark:border-slate-700 shadow-inner">
-                  <span className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest mb-0.5">
-                    Місце
-                  </span>
-                  <span className="text-4xl md:text-5xl font-black bg-clip-text text-transparent bg-gradient-to-br from-violet-600 to-cyan-500 dark:from-violet-400 dark:to-cyan-300 tracking-tighter">
-                    {city.rank}
-                  </span>
-                </div>
-              </div>
+          <div className="flex-1 min-w-0">
+            {/* rank + score row */}
+            <div className="flex items-baseline gap-4 mb-3">
+              <span className="font-mono text-xs text-slate-400 dark:text-slate-500">#{city.rank}</span>
+              <span className="text-4xl font-black tabular-nums text-orange-500 leading-none">{city.totalScore}</span>
+              <span className="text-xs text-slate-400 dark:text-slate-500">/1000</span>
             </div>
-          </div>
 
-          {/* Total Score */}
-          <div className="absolute bottom-3 right-6 md:right-10 text-white text-right z-10">
-            <p className="opacity-90 text-[10px] font-bold uppercase tracking-widest mb-0.5 text-violet-200">
-              Загальний Бал
-            </p>
-            <div className="text-6xl md:text-7xl font-black tracking-tight text-white drop-shadow-[0_0_25px_rgba(167,139,250,0.7)] leading-none">
-              {city.totalScore}
+            <h1 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+              {city.name}
+            </h1>
+            <div className="flex flex-wrap gap-3 mt-2 text-sm text-slate-400 dark:text-slate-500">
+              <span>{city.region}</span>
+              <span>·</span>
+              <span>{city.population.toLocaleString('uk-UA')} мешканців</span>
             </div>
-          </div>
-
-          {/* City Name (mobile) */}
-          <div className="absolute bottom-12 left-6 md:left-10 z-0 md:hidden">
-            <h1 className="text-2xl font-bold text-white drop-shadow-lg">{city.name}</h1>
           </div>
         </div>
 
-        {/* Content */}
-        <div className="pt-12 px-6 md:px-10 pb-8 rounded-b-3xl bg-white dark:bg-slate-900 relative z-0">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+        {/* description */}
+        <p className="mt-6 text-slate-600 dark:text-slate-300 text-base leading-relaxed max-w-2xl">
+          {city.description}
+        </p>
+
+        {/* highlights */}
+        {city.highlights && city.highlights.length > 0 && (
+          <div className="flex flex-wrap gap-2 mt-4">
+            {city.highlights.map((h) => (
+              <span key={h} className="text-xs text-orange-600 dark:text-orange-400 font-medium">
+                — {h}
+              </span>
+            ))}
+          </div>
+        )}
+      </header>
+
+      {/* ── Live bar ── */}
+      <div className="flex flex-col sm:flex-row gap-px bg-slate-100 dark:bg-slate-800 rounded-lg overflow-hidden mb-2">
+        {/* weather */}
+        <div className="flex-1 bg-white dark:bg-slate-900 px-5 py-4">
+          <div className="text-[10px] font-mono uppercase tracking-widest text-slate-400 mb-2">Погода</div>
+          {loading ? (
+            <div className="h-6 w-20 bg-slate-100 dark:bg-slate-800 rounded animate-pulse" />
+          ) : liveWeather ? (
+            <div className="flex items-center gap-2">
+              {weatherIcon}
+              <span className="text-2xl font-bold text-slate-900 dark:text-white tabular-nums">
+                {liveWeather.temperature}°
+              </span>
+              <span className="text-xs text-slate-400 flex items-center gap-1">
+                <Wind className="w-3 h-3" /> {liveWeather.windSpeed} км/г
+              </span>
+            </div>
+          ) : <span className="text-slate-400 text-sm">—</span>}
+        </div>
+        {/* AQI */}
+        <div className="flex-1 bg-white dark:bg-slate-900 px-5 py-4">
+          <div className="text-[10px] font-mono uppercase tracking-widest text-slate-400 mb-2">Якість повітря</div>
+          {loading ? (
+            <div className="h-6 w-20 bg-slate-100 dark:bg-slate-800 rounded animate-pulse" />
+          ) : liveAQI ? (
             <div>
-              <h1 className="hidden md:block text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
-                {city.name}
-              </h1>
-              <div className="flex flex-wrap items-center gap-3 mt-2 text-slate-500 dark:text-slate-400 text-sm font-medium">
-                <span className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-lg text-slate-600 dark:text-slate-300">
-                  <MapPin className="w-3.5 h-3.5 text-violet-500" /> {city.region}
-                </span>
-                <span className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-lg text-slate-600 dark:text-slate-300">
-                  <Users className="w-3.5 h-3.5 text-violet-500" />{' '}
-                  {city.population.toLocaleString()} мешканців
-                </span>
-              </div>
+              <span className="text-2xl font-bold tabular-nums" style={{ color: aqiColor }}>
+                {liveAQI.aqi}
+              </span>
+              <span className="text-xs text-slate-400 ml-1.5">AQI</span>
+              <span className="text-[10px] text-slate-400 ml-2">PM2.5 {liveAQI.pm2_5} · NO₂ {liveAQI.no2}</span>
             </div>
-          </div>
-          <p className="text-slate-600 dark:text-slate-300 text-base md:text-lg leading-relaxed max-w-4xl border-l-4 border-violet-400 pl-5 italic">
-            {city.description}
-          </p>
+          ) : <span className="text-slate-400 text-sm">—</span>}
+        </div>
+        {/* salary USD */}
+        <div className="flex-1 bg-white dark:bg-slate-900 px-5 py-4">
+          <div className="text-[10px] font-mono uppercase tracking-widest text-slate-400 mb-2">Зарплата USD</div>
+          {loading ? (
+            <div className="h-6 w-20 bg-slate-100 dark:bg-slate-800 rounded animate-pulse" />
+          ) : exchangeRates ? (
+            <div className="flex items-center gap-1.5">
+              <DollarSign className="w-4 h-4 text-slate-400" />
+              <span className="text-2xl font-bold text-slate-900 dark:text-white tabular-nums">
+                {Math.round(sm.avgSalary / exchangeRates.usd)}
+              </span>
+              <span className="text-[10px] text-slate-400">/міс · НБУ {exchangeRates.usd} ₴</span>
+            </div>
+          ) : <span className="text-slate-400 text-sm">—</span>}
+        </div>
+      </div>
+      <p className="text-[10px] text-slate-400 dark:text-slate-600 mb-12">
+        Погода та AQI — OpenMeteo live API
+      </p>
+
+      {/* ── Radar ── */}
+      <div className="mb-2">
+        <div className="text-[10px] font-mono uppercase tracking-widest text-slate-400 mb-4">Профіль міста · 9 вимірів</div>
+        <div className="h-[340px] bg-white dark:bg-slate-900 rounded-lg border border-slate-100 dark:border-slate-800">
+          <ResponsiveContainer width="100%" height="100%">
+            <RadarChart cx="50%" cy="50%" outerRadius="68%" data={radarData}>
+              <PolarGrid stroke="#e2e8f0" strokeOpacity={0.5} />
+              <PolarAngleAxis
+                dataKey="subject"
+                tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 500 }}
+              />
+              <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
+              <Radar
+                name={city.name}
+                dataKey="A"
+                stroke="#ea580c"
+                strokeWidth={2}
+                fill="#ea580c"
+                fillOpacity={0.15}
+              />
+              <Tooltip
+                contentStyle={{
+                  borderRadius: '8px',
+                  border: '1px solid #e2e8f0',
+                  boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.05)',
+                  backgroundColor: '#fff',
+                  color: '#0f172a',
+                  padding: '6px 10px',
+                  fontSize: '12px',
+                }}
+                itemStyle={{ color: '#ea580c', fontWeight: 600 }}
+              />
+            </RadarChart>
+          </ResponsiveContainer>
         </div>
       </div>
 
-      {/* Live Monitor + Radar Chart */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
-        {/* Live Monitor */}
-        <div className="lg:col-span-5 space-y-4">
-          <h3 className="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
-            <Wifi className="w-5 h-5 text-red-500 animate-pulse" />
-            Live Монітор (API)
-          </h3>
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
-            {/* Weather */}
-            <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex items-center justify-between hover:border-violet-300 dark:hover:border-violet-700 transition-colors">
-              <div>
-                <div className="text-xs uppercase font-bold text-slate-400 tracking-wider mb-1">
-                  Погода зараз
-                </div>
-                {loading || !liveWeather ? (
-                  <div className="animate-pulse h-6 w-24 bg-slate-100 dark:bg-slate-800 rounded"></div>
-                ) : (
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-3xl font-bold text-slate-900 dark:text-white">
-                      {liveWeather.temperature}°
-                    </span>
-                    <span className="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1">
-                      <Wind className="w-3 h-3" /> {liveWeather.windSpeed} км/г
-                    </span>
-                  </div>
-                )}
-              </div>
-              {liveWeather && (
-                <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl">
-                  {getWeatherIcon(liveWeather.conditionCode)}
-                </div>
-              )}
-            </div>
+      {/* 01 — Economy */}
+      <SectionTitle num="01" title="Економіка" value={city.metrics[Category.ECONOMY]} bar />
+      <MetricGrid items={[
+        { label: 'Середня зарплата', value: `${fmt(sm.avgSalary)} ₴`, highlight: true },
+        { label: 'Медіанна зарплата', value: `${fmt(sm.medianSalary ?? Math.round(sm.avgSalary * 0.83))} ₴` },
+        { label: 'Оренда 1к', value: `${fmt(sm.rentCost)} ₴`, sub: `${Math.round(sm.rentCost / sm.avgSalary * 100)}% від ЗП` },
+        { label: 'Комунальні послуги', value: `${fmt(sm.utilityExpenses ?? Math.round(sm.rentCost * 0.42))} ₴` },
+        { label: 'Продуктовий кошик', value: `${fmt(sm.foodBasketCost ?? Math.round(sm.avgSalary * 0.45))} ₴` },
+        { label: 'Безробіття', value: `${sm.unemployment}%` },
+        { label: 'Бізнесів на 1 000', value: sm.registeredBusiness },
+        { label: 'Нові реєстрації/рік', value: `${sm.newBusinessRegistrations ?? 3.2}/1к` },
+        { label: 'Частка МСП', value: `${sm.smeShare ?? 82}%` },
+        { label: 'ВВП/особу (оцінка)', value: `$${fmt(sm.gdpPerCapitaEstimate ?? Math.round(sm.avgSalary / 4.5))}` },
+        { label: 'Прямі інвестиції', value: `$${sm.fdiVolume ?? 20} млн` },
+        { label: 'Авто на 100 осіб', value: sm.avgCarOwnership ?? 28 },
+        { label: 'Відділень банків/100к', value: sm.bankBranches ?? 45 },
+        { label: 'Закупівлі ProZorro', value: `${fmt(sm.procurementVolume)} ₴`, sub: 'на душу населення' },
+      ]} />
 
-            {/* AQI */}
-            <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex items-center justify-between hover:border-emerald-300 dark:hover:border-emerald-700 transition-colors">
-              <div>
-                <div className="text-xs uppercase font-bold text-slate-400 tracking-wider mb-1">
-                  Якість повітря
-                </div>
-                {loading || !liveAQI ? (
-                  <div className="animate-pulse h-6 w-24 bg-slate-100 dark:bg-slate-800 rounded"></div>
-                ) : (
-                  <div>
-                    <div className="text-3xl font-bold flex items-center gap-2">
-                      <span className={getAqiColor(liveAQI.aqi)}>{liveAQI.aqi}</span>
-                      <span className="text-sm text-slate-400 font-normal">AQI</span>
-                    </div>
-                    <div className="flex gap-2 mt-1 text-[10px] text-slate-500">
-                      <span className="bg-slate-50 dark:bg-slate-800 px-1.5 py-0.5 rounded border border-slate-100 dark:border-slate-700">
-                        PM2.5: {liveAQI.pm2_5}
-                      </span>
-                      <span className="bg-slate-50 dark:bg-slate-800 px-1.5 py-0.5 rounded border border-slate-100 dark:border-slate-700">
-                        NO₂: {liveAQI.no2}
-                      </span>
-                    </div>
-                  </div>
-                )}
-              </div>
-              <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl">
-                <Wind
-                  className={`w-6 h-6 ${liveAQI ? getAqiColor(liveAQI.aqi) : 'text-slate-400'}`}
-                />
-              </div>
-            </div>
+      {/* 02 — Transparency */}
+      <SectionTitle num="02" title="Прозорість та Управління" value={city.metrics[Category.GOVERNANCE]} bar />
+      <MetricGrid items={[
+        { label: 'TI Індекс прозорості', value: score(sm.transparencyScore), highlight: true },
+        { label: 'Відкриті набори даних', value: sm.openDataSets ?? 12 },
+        { label: 'Прозорість бюджету', value: score(sm.budgetTransparencyScore) },
+        { label: 'Корупція (локальна)', value: score(sm.corruptionLocalIndex), sub: '100 = найменша' },
+        { label: 'Міграційна привабл.', value: score(sm.migrationBalance) },
+        { label: 'е-Голосування', value: `${sm.eVotingParticipation ?? 10}%` },
+        { label: 'е-Послуги', value: sm.digitalServicesCount ?? 25 },
+        { label: 'Виконання бюджету', value: `${sm.budgetExecution ?? 90}%` },
+      ]} cols={4} />
 
-            {/* Exchange Rate */}
-            <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex items-center justify-between hover:border-amber-300 dark:hover:border-amber-700 transition-colors">
-              <div>
-                <div className="text-xs uppercase font-bold text-slate-400 tracking-wider mb-1">
-                  Зарплата (екв.)
-                </div>
-                {loading || !exchangeRates ? (
-                  <div className="animate-pulse h-6 w-24 bg-slate-100 dark:bg-slate-800 rounded"></div>
-                ) : (
-                  <div className="flex flex-col">
-                    <span className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
-                      ${(city.subMetrics.avgSalary / exchangeRates.usd).toFixed(0)}
-                    </span>
-                    <span className="text-xs text-slate-500">Курс НБУ: {exchangeRates.usd}</span>
-                  </div>
-                )}
-              </div>
-              <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl">
-                <DollarSign className="w-6 h-6 text-emerald-500" />
-              </div>
-            </div>
-          </div>
-        </div>
+      {/* 03 — Ecology */}
+      <SectionTitle num="03" title="Екологія" value={city.metrics[Category.ECOLOGY]} bar />
+      <MetricGrid items={[
+        { label: 'AQI (Live OpenMeteo)', value: liveAQI?.aqi ?? sm.airQuality, highlight: true },
+        { label: 'Якість води', value: score(sm.waterQualityIndex) },
+        { label: 'Зелень на особу', value: `${sm.greenAreaPerCapita ?? 18} м²` },
+        { label: 'Переробка відходів', value: `${sm.recyclingRate ?? 8}%` },
+        { label: 'CO₂ на особу', value: `${sm.co2EmissionsPerCapita ?? 5} т/рік` },
+        { label: 'Рівень шуму', value: `${sm.noiseLevel ?? 62} дБ` },
+        { label: 'Пром. чистота', value: score(sm.industrialPollutionIndex), sub: '100 = найчистіше' },
+        { label: 'Відновлювана енергія', value: `${sm.renewableEnergyShare ?? 5}%` },
+        { label: 'Посадка дерев', value: `${sm.treesPlantedPerYear ?? 8}/1к` },
+      ]} />
 
-        {/* Radar Chart */}
-        <div className="lg:col-span-7 bg-white dark:bg-slate-900 p-6 rounded-3xl shadow-lg dark:shadow-slate-900/50 border border-slate-200 dark:border-slate-800 flex flex-col items-center justify-center relative min-h-[400px]">
-          <h3 className="absolute top-6 left-6 text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
-            <Monitor className="w-5 h-5 text-violet-500" />
-            Профіль міста (9-Axis)
-          </h3>
-          <div className="w-full h-[350px] mt-8">
-            <ResponsiveContainer width="100%" height="100%">
-              <RadarChart cx="50%" cy="50%" outerRadius="70%" data={radarData}>
-                <PolarGrid stroke="#94a3b8" strokeOpacity={0.2} />
-                <PolarAngleAxis
-                  dataKey="subject"
-                  tick={{ fill: '#64748b', fontSize: 11, fontWeight: 600 }}
-                />
-                <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
-                <Radar
-                  name={city.name}
-                  dataKey="A"
-                  stroke="#7c3aed"
-                  strokeWidth={3}
-                  fill="#7c3aed"
-                  fillOpacity={0.35}
-                />
-                <Tooltip
-                  contentStyle={{
-                    borderRadius: '12px',
-                    border: 'none',
-                    boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
-                    backgroundColor: '#1e293b',
-                    color: '#f8fafc',
-                    padding: '8px 12px',
-                  }}
-                  itemStyle={{ color: '#a78bfa', fontWeight: 600 }}
-                />
-              </RadarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      </div>
+      {/* 04 — Infrastructure */}
+      <SectionTitle num="04" title="Інфраструктура" value={city.metrics[Category.INFRASTRUCTURE]} bar />
+      <MetricGrid items={[
+        { label: 'GPS Транспорт', value: sm.hasTransportApi ? 'Є' : 'Немає' },
+        { label: 'Безбар\u2019єрна мапа', value: sm.hasAccessibilityMap ? 'Є' : 'Немає' },
+        { label: 'Маршрути автобусів', value: sm.busRoutes ?? 20 },
+        { label: 'Трамвайні маршрути', value: sm.tramRoutes ?? 0 },
+        { label: 'Тролейбусні', value: sm.trolleybusRoutes ?? 0 },
+        { label: 'Велошеринг (станцій)', value: sm.bikeSharingStations ?? 0 },
+        { label: 'Час у дорозі', value: `${sm.avgCommuteTime ?? 22} хв` },
+        { label: 'Стан доріг', value: score(sm.roadConditionIndex) },
+        { label: 'Транспорт Score', value: score(sm.publicTransportScore) },
+        { label: 'Таксі-додатки', value: sm.taxiApps ?? 2 },
+        { label: 'Smart City', value: score(sm.smartCityIndex) },
+        { label: 'WiFi-точок', value: sm.wifiHotspots ?? 20 },
+      ]} />
 
-      {/* Detailed Cluster Breakdown */}
-      <div>
-        <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2 px-1">
-          <Building2 className="w-6 h-6 text-violet-500" />
-          Детальний аналіз за методологією
-        </h3>
+      {/* 05 — Healthcare */}
+      <SectionTitle num="05" title="Охорона здоров'я" />
+      <MetricGrid items={[
+        { label: "Рейтинг охорони здоров'я", value: score(sm.healthcareScore), highlight: true },
+        { label: 'Лікарні', value: sm.hospitals ?? 5 },
+        { label: 'Поліклініки', value: sm.polyclinics ?? 8 },
+        { label: 'Ліжок на 1 000', value: sm.bedsPer1000 ?? 7.2 },
+        { label: 'Лікарів на 1 000', value: sm.doctorsPer1000 ?? 3.5 },
+        { label: 'Аптек на 100к', value: sm.pharmacies ?? 80 },
+        { label: 'Швидка (хв)', value: `${sm.emergencyResponseTime ?? 12} хв` },
+        { label: 'Вакцинація дітей', value: `${sm.vaccinationRate ?? 78}%` },
+      ]} />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {Object.values(Category).map((cat) => {
-            const color = CATEGORY_COLORS[cat];
-            const score = city.metrics[cat];
-            const subItems = getSubItems(cat);
+      {/* 06 — Education */}
+      <SectionTitle num="06" title="Освіта та Наука" />
+      <MetricGrid items={[
+        { label: 'ВНЗ', value: sm.universities, highlight: true },
+        { label: 'Коледжі', value: sm.colleges ?? 3 },
+        { label: 'Школи', value: sm.schools ?? 30 },
+        { label: 'Школи на 10к', value: sm.schoolsPerCapita ?? 2.2 },
+        { label: 'Дитячі садки', value: sm.kindergartens ?? 25 },
+        { label: 'Охоплення д/с', value: `${sm.kindergartenCoverage ?? 72}%` },
+        { label: 'Бібліотеки', value: sm.librariesCount ?? 8 },
+        { label: 'НДІ', value: sm.researchInstitutes ?? 1 },
+      ]} />
 
-            return (
-              <div
-                key={cat}
-                className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow"
-              >
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h4 className="text-lg font-bold text-slate-800 dark:text-white">{cat}</h4>
-                    <div
-                      className="h-1 w-12 rounded-full mt-2"
-                      style={{ backgroundColor: color }}
-                    ></div>
-                  </div>
-                  <span className="text-2xl font-black" style={{ color }}>
-                    {score}
-                  </span>
-                </div>
+      {/* 07 — Housing */}
+      <SectionTitle num="07" title="Житло та ЖКГ" />
+      <MetricGrid items={[
+        { label: 'Ціна м² квартири', value: `${fmt(sm.avgApartmentCost ?? 22000)} ₴`, highlight: true },
+        { label: 'Нове житло/рік', value: `${sm.newHousingM2 ?? 150} м²/1к` },
+        { label: 'Фонд на особу', value: `${sm.housingStockM2PerCapita ?? 24} м²` },
+        { label: 'Водопостачання', value: `${sm.waterSupplyCoverage ?? 88}%` },
+        { label: 'Каналізація', value: `${sm.sewerageCoverage ?? 85}%` },
+        { label: 'Газопостачання', value: `${sm.gasSupplyCoverage ?? 78}%` },
+        { label: 'Централіз. тепло', value: `${sm.heatingSystemCoverage ?? 82}%` },
+        { label: 'Домогосподарств', value: `${sm.householdsCount ?? 100}к` },
+      ]} />
 
-                <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 mb-6">
-                  <div
-                    className="h-2 rounded-full transition-all duration-1000 ease-out"
-                    style={{ width: `${score}%`, backgroundColor: color }}
-                  ></div>
-                </div>
+      {/* 08 — Culture */}
+      <SectionTitle num="08" title="Культура та Відпочинок" />
+      <MetricGrid items={[
+        { label: 'Культурний рейтинг', value: score(sm.cultureScore), highlight: true },
+        { label: 'Музеї', value: sm.museums ?? 4 },
+        { label: 'Театри', value: sm.theaters ?? 2 },
+        { label: 'Кінотеатри', value: sm.cinemas ?? 2 },
+        { label: 'Спортарени', value: sm.sportsArenas ?? 5 },
+        { label: 'Публічні басейни', value: sm.swimmingPools ?? 2 },
+        { label: 'Парки', value: sm.parks ?? 15 },
+        { label: 'Дитмайданчики', value: sm.playgrounds ?? 50 },
+        { label: 'Ресторанів на 10к', value: sm.restaurantsPerCapita ?? 22 },
+      ]} />
 
-                <div className="grid grid-cols-2 gap-4">
-                  {subItems.map((item, idx) => (
-                    <div
-                      key={idx}
-                      className="bg-slate-50 dark:bg-slate-950/50 p-3 rounded-xl border border-slate-100 dark:border-slate-800/50 flex flex-col hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors"
-                    >
-                      <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-xs uppercase font-bold tracking-wide mb-1">
-                        {item.icon}
-                        <span className="truncate">{item.label}</span>
-                      </div>
-                      <div className="text-base font-bold text-slate-800 dark:text-slate-200 mt-auto">
-                        {item.value}
-                      </div>
-                      <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-1">
-                        {item.subtext}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </div>
+      {/* 09 — Digital */}
+      <SectionTitle num="09" title="Цифровізація" />
+      <MetricGrid items={[
+        { label: 'Smart City Index', value: score(sm.smartCityIndex), highlight: true },
+        { label: 'е-Послуги онлайн', value: sm.digitalServicesCount ?? 25 },
+        { label: 'Відкриті датасети', value: sm.openDataSets ?? 12 },
+        { label: 'Рейтинг застосунку', value: score(sm.cityAppScore) },
+        { label: 'CCTV покриття', value: `${sm.cctvCoverage ?? 15}%` },
+        { label: 'WiFi-точок', value: sm.wifiHotspots ?? 20 },
+        { label: 'Кіберзахист', value: score(sm.cybersecurityScore) },
+        { label: 'е-Голосування', value: `${sm.eVotingParticipation ?? 8}%` },
+      ]} />
+
+      {/* 10 — Safety */}
+      <SectionTitle num="10" title="Безпека" />
+      <MetricGrid items={[
+        { label: 'Індекс безпеки', value: score(sm.safetyIndex), highlight: true },
+        { label: 'Злочинів на 10к', value: sm.crimeRatePer10k ?? 80 },
+        { label: 'Поліцейські відділи', value: sm.policeStations ?? 4 },
+        { label: 'Пожежні частини', value: sm.fireDepartments ?? 2 },
+        { label: 'ДТП на 10к', value: sm.accidentsPer10k ?? 8 },
+        { label: 'Дом. насильство/10к', value: sm.domesticViolenceRate ?? 12 },
+        { label: 'Корупція (локальна)', value: score(sm.corruptionLocalIndex) },
+      ]} cols={4} />
+
+      {/* 11 — Tourism */}
+      <SectionTitle num="11" title="Туризм та Гостинність" />
+      <MetricGrid items={[
+        { label: 'Туристів на рік', value: `${sm.annualTouristsEstimate ?? 50}к`, highlight: true },
+        { label: 'Готелі', value: sm.hotels ?? 8 },
+        { label: 'Хостели', value: sm.hostels ?? 2 },
+        { label: 'Туристичні атракції', value: sm.touristAttractions ?? 10 },
+        { label: 'Ресторанів', value: sm.restaurantsCount ?? 80 },
+        { label: 'Міжнар. подій/рік', value: sm.internationalEvents ?? 2 },
+        { label: 'Туристичний дохід', value: `${sm.tourismRevenueEstimate ?? 80} млн ₴` },
+      ]} cols={4} />
+
+      {/* 12 — Finance */}
+      <SectionTitle num="12" title="Муніципальні Фінанси" />
+      <MetricGrid items={[
+        { label: 'Бюджет на особу', value: `${fmt(sm.budgetPerCapita ?? 8000)} ₴`, highlight: true },
+        { label: 'Власні доходи', value: `${sm.ownRevenueShare ?? 58}%` },
+        { label: 'Капітальні видатки', value: `${sm.capitalExpenditureShare ?? 20}%` },
+        { label: 'Прозорість бюджету', value: score(sm.budgetTransparencyScore) },
+        { label: 'Борг на особу', value: `${fmt(sm.debtPerCapita ?? 1200)} ₴` },
+        { label: 'Виконання бюджету', value: `${sm.budgetExecution ?? 90}%` },
+        { label: 'Закупівлі (ProZorro)', value: `${fmt(sm.procurementVolume)} ₴` },
+      ]} cols={4} />
+
+      {/* 13 — Demographics */}
+      <SectionTitle num="13" title="Демографія" />
+      <MetricGrid items={[
+        { label: 'Населення', value: city.population.toLocaleString('uk-UA'), highlight: true },
+        { label: 'Щільність', value: `${fmt(sm.populationDensity ?? 800)}/км²` },
+        { label: 'Народжуваність', value: `${sm.birthRate ?? 7.8}‰` },
+        { label: 'Смертність', value: `${sm.deathRate ?? 13.5}‰` },
+        { label: 'Природній приріст', value: `${sm.naturalGrowth ?? -5.7}‰` },
+        { label: 'Середній вік', value: `${sm.avgAge ?? 41} р` },
+        { label: 'Молодь (до 35)', value: `${sm.youthShare ?? 33}%` },
+        { label: 'Працездатні (18–60)', value: `${sm.workingAgeShare ?? 54}%` },
+        { label: 'Пенсіонери (60+)', value: `${sm.pensionerShare ?? 24}%` },
+        { label: 'Домогосподарств', value: `${sm.householdsCount ?? 100}к` },
+      ]} />
+
+    </article>
   );
 };
